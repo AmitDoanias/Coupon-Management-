@@ -23,6 +23,7 @@ export interface Coupon {
   imageUrl?: string;
   redemptions: RedemptionRecord[];
   createdAt: string;        // YYYY-MM-DD
+  isGift?: boolean;          // true if received as a gift (purchaseCost = 0)
   description?: string;     // optional: what this coupon is for (e.g. "ארוחת ביג מק רויאל")
   // Card-type fields (only when couponType === 'card')
   cardNumber?: string;      // 16 digit string, no spaces

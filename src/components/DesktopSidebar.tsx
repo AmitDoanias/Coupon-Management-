@@ -1,6 +1,5 @@
 "use client";
 
-import { LayoutGrid, Archive, Plus, TrendingUp, Wallet, LogOut } from "lucide-react";
 import { type TabId } from "./BottomNav";
 
 interface DesktopSidebarProps {
@@ -12,113 +11,76 @@ interface DesktopSidebarProps {
   onSignOut?: () => void;
 }
 
-const NAV_ITEMS: { id: TabId; label: string; icon: React.ElementType }[] = [
-  { id: "dashboard", label: "ראשי",       icon: LayoutGrid },
-  { id: "stats",     label: "סטטיסטיקה", icon: TrendingUp },
-  { id: "archive",   label: "ארכיון",     icon: Archive },
+const NAV_ITEMS: { id: TabId; label: string; icon: string }[] = [
+  { id: "dashboard", label: "ראשי",          icon: "dashboard" },
+  { id: "archive",   label: "קופונים ישנים", icon: "history" },
+  { id: "stats",     label: "סטטיסטיקות",    icon: "analytics" },
 ];
-
-function formatShort(n: number): string {
-  return new Intl.NumberFormat("he-IL", {
-    style: "currency",
-    currency: "ILS",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(n);
-}
 
 export default function DesktopSidebar({
   active,
   onChange,
-  totalBalance,
-  totalSavings,
-  activeCouponCount,
   onSignOut,
 }: DesktopSidebarProps) {
   return (
     <aside
-      className="hidden md:flex flex-col w-64 shrink-0 sticky top-0 h-screen border-r border-gray-100 bg-white"
+      className="hidden md:flex fixed right-0 top-0 h-full w-72 bg-surface-container-low flex-col p-6 text-right items-end z-50"
       aria-label="תפריט ניווט"
-      dir="rtl"
     >
-      {/* Logo / App name */}
-      <div className="px-5 pt-6 pb-4 border-b border-gray-100">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center shadow-sm shadow-indigo-200">
-            <Wallet size={18} className="text-white" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h1 className="font-bold text-gray-900 text-sm leading-tight">ארנק קופונים</h1>
-            <p className="text-[11px] text-gray-400 leading-tight">{activeCouponCount} קופונים פעילים</p>
-          </div>
-          {onSignOut && (
-            <form action={onSignOut}>
-              <button
-                type="submit"
-                className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors flex-shrink-0"
-                aria-label="התנתק"
-              >
-                <LogOut size={15} />
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-
-      {/* Quick stats */}
-      <div className="px-4 py-4 space-y-2.5 border-b border-gray-100">
-        <div className="bg-indigo-50 rounded-xl p-3">
-          <p className="text-[11px] text-indigo-500 font-medium mb-0.5">יתרה כוללת</p>
-          <p className="text-xl font-bold text-indigo-700">{formatShort(totalBalance)}</p>
-        </div>
-        <div className="bg-emerald-50 rounded-xl p-3">
-          <p className="text-[11px] text-emerald-600 font-medium mb-0.5">חיסכון מצטבר</p>
-          <p className="text-xl font-bold text-emerald-700">{formatShort(totalSavings)}</p>
-        </div>
+      {/* App title */}
+      <div className="mb-8 w-full">
+        <h1 className="text-2xl font-black text-primary tracking-tight">ארנק הקופונים</h1>
       </div>
 
       {/* Nav links */}
-      <nav className="flex-1 px-3 py-3 space-y-1" aria-label="ניווט">
-        {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
+      <nav className="flex flex-col w-full gap-2 mt-4 flex-1" aria-label="ניווט">
+        {NAV_ITEMS.map(({ id, label, icon }) => {
           const isActive = active === id;
           return (
             <button
               key={id}
               onClick={() => onChange(id)}
               aria-current={isActive ? "page" : undefined}
-              className={`
-                w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-                transition-all duration-150 text-right
-                ${isActive
-                  ? "bg-indigo-50 text-indigo-700"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                }
-              `}
+              className={`flex items-center gap-4 px-4 py-3 transition-all w-full justify-end ${
+                isActive
+                  ? "border-r-4 border-primary bg-white text-primary font-bold"
+                  : "text-slate-600 hover:bg-white/50"
+              }`}
             >
-              <Icon
-                size={18}
-                strokeWidth={isActive ? 2.2 : 1.7}
-                className={isActive ? "text-indigo-600" : "text-gray-400"}
-              />
-              {label}
+              <span>{label}</span>
+              <span
+                className="material-symbols-outlined"
+                style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
+              >
+                {icon}
+              </span>
             </button>
           );
         })}
       </nav>
 
-      {/* Add coupon CTA at bottom */}
-      <div className="px-4 pb-6">
+      {/* Add coupon CTA */}
+      <div className="mt-auto w-full">
         <button
           onClick={() => onChange("add")}
-          className="
-            w-full flex items-center justify-center gap-2 py-3 rounded-xl
-            bg-indigo-600 text-white text-sm font-semibold
-            hover:bg-indigo-700 active:scale-[0.98] transition-all shadow-sm shadow-indigo-200
-          "
+          className="w-full bg-gradient-to-br from-primary to-primary-container text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 mb-4 hover:opacity-90 transition-all"
         >
-          <Plus size={16} />
-          הוסף קופון
+          <span className="material-symbols-outlined">add</span>
+          <span>קופון חדש</span>
         </button>
+
+        {/* Sign out */}
+        {onSignOut && (
+          <form action={onSignOut}>
+            <button
+              type="submit"
+              className="flex items-center gap-4 px-4 py-3 text-slate-600 hover:bg-white/50 transition-all w-full justify-end"
+            >
+              <span>יציאה</span>
+              <span className="material-symbols-outlined">logout</span>
+            </button>
+          </form>
+        )}
       </div>
     </aside>
   );

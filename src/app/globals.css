@@ -1,33 +1,70 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-rubik: var(--font-rubik);
+  /* Fonts */
+  --font-plus-jakarta-sans: var(--font-plus-jakarta-sans);
+  --font-inter: var(--font-inter);
 
-  /* Surface */
-  --color-background: #f4f5f7;
-  --color-surface:    #ffffff;
+  /* ── Stitch MD3 Color Tokens ─────────────────────────────────── */
+  --color-primary:                  #3525cd;
+  --color-primary-container:        #4f46e5;
+  --color-primary-fixed:            #e2dfff;
+  --color-primary-fixed-dim:        #c3c0ff;
+  --color-on-primary:               #ffffff;
+  --color-on-primary-container:     #dad7ff;
+  --color-on-primary-fixed:         #0f0069;
+  --color-on-primary-fixed-variant: #3323cc;
 
-  /* Brand */
-  --color-primary:       #4f46e5;
-  --color-primary-dark:  #3730a3;
-  --color-primary-light: #eef2ff;
+  --color-secondary:                #006c49;
+  --color-secondary-container:      #6cf8bb;
+  --color-secondary-fixed:          #6ffbbe;
+  --color-secondary-fixed-dim:      #4edea3;
+  --color-on-secondary:             #ffffff;
+  --color-on-secondary-container:   #00714d;
+  --color-on-secondary-fixed:       #002113;
+  --color-on-secondary-fixed-variant: #005236;
 
-  /* Semantic */
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-danger:  #dc2626;
+  --color-tertiary:                 #684000;
+  --color-tertiary-container:       #885500;
+  --color-tertiary-fixed:           #ffddb8;
+  --color-tertiary-fixed-dim:       #ffb95f;
+  --color-on-tertiary:              #ffffff;
+  --color-on-tertiary-container:    #ffd4a4;
+  --color-on-tertiary-fixed:        #2a1700;
+  --color-on-tertiary-fixed-variant: #653e00;
 
-  /* Text */
-  --color-foreground:         #111827;
-  --color-foreground-muted:   #6b7280;
-  --color-foreground-subtle:  #9ca3af;
+  --color-error:                    #ba1a1a;
+  --color-error-container:          #ffdad6;
+  --color-on-error:                 #ffffff;
+  --color-on-error-container:       #93000a;
 
-  /* Borders */
-  --color-border: #e5e7eb;
+  --color-background:               #f7f9fb;
+  --color-surface:                  #f7f9fb;
+  --color-surface-bright:           #f7f9fb;
+  --color-surface-dim:              #d8dadc;
+  --color-surface-tint:             #4d44e3;
+  --color-surface-variant:          #e0e3e5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low:    #f2f4f6;
+  --color-surface-container:        #eceef0;
+  --color-surface-container-high:   #e6e8ea;
+  --color-surface-container-highest: #e0e3e5;
 
-  /* Elevation shadows */
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.08), 0 2px 4px -1px rgb(0 0 0 / 0.05);
+  --color-on-background:            #191c1e;
+  --color-on-surface:               #191c1e;
+  --color-on-surface-variant:       #464555;
+
+  --color-outline:                  #777587;
+  --color-outline-variant:          #c7c4d8;
+
+  --color-inverse-primary:          #c3c0ff;
+  --color-inverse-surface:          #2d3133;
+  --color-inverse-on-surface:       #eff1f3;
+
+  /* ── Border Radius (Stitch) ──────────────────────────────────── */
+  --radius-DEFAULT: 1rem;
+  --radius-lg:      2rem;
+  --radius-xl:      3rem;
 }
 
 *, *::before, *::after {
@@ -40,12 +77,38 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-rubik), system-ui, sans-serif;
+  background-color: #f7f9fb;
+  color: #191c1e;
+  font-family: 'Inter', var(--font-inter), system-ui, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .brand-font, .headline-font {
+  font-family: 'Plus Jakarta Sans', var(--font-plus-jakarta-sans), system-ui, sans-serif;
+}
+
+/* Material Symbols Outlined */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Gradient button (used in AddCouponModal) */
+.gradient-btn {
+  background: linear-gradient(135deg, #3525cd 0%, #4f46e5 100%);
 }
 
 /* Safe area bottom padding for bottom nav */

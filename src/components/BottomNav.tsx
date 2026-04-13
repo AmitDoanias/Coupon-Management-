@@ -1,7 +1,5 @@
 "use client";
 
-import { LayoutGrid, Archive, Plus, TrendingUp } from "lucide-react";
-
 export type TabId = "dashboard" | "archive" | "add" | "stats";
 
 interface BottomNavProps {
@@ -9,64 +7,58 @@ interface BottomNavProps {
   onChange: (tab: TabId) => void;
 }
 
-const TABS: { id: TabId; label: string; icon: React.ElementType; isFab?: boolean }[] = [
-  { id: "stats",     label: "סטטיסטיקה", icon: TrendingUp },
-  { id: "archive",   label: "ארכיון",     icon: Archive },
-  { id: "add",       label: "הוסף",       icon: Plus, isFab: true },
-  { id: "dashboard", label: "ראשי",       icon: LayoutGrid },
+const TABS: { id: TabId; label: string; icon: string; isFab?: boolean }[] = [
+  { id: "stats",     label: "נתונים",  icon: "leaderboard" },
+  { id: "archive",   label: "ארכיון",  icon: "inventory_2" },
+  { id: "add",       label: "הוסף",    icon: "add", isFab: true },
+  { id: "dashboard", label: "בית",     icon: "home" },
 ];
 
 export default function BottomNav({ active, onChange }: BottomNavProps) {
   return (
     <nav
-      className="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur border-t border-gray-100 safe-bottom md:hidden"
+      className="md:hidden fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-md flex flex-row-reverse justify-around items-center px-4 pb-6 pt-3 shadow-[0_-12px_32px_rgba(25,28,30,0.06)] z-50 rounded-t-xl safe-bottom"
       aria-label="ניווט ראשי"
     >
-      <div className="flex items-end justify-around px-2 pb-2 pt-1 max-w-lg mx-auto">
-        {TABS.map(({ id, label, icon: Icon, isFab }) => {
-          const isActive = active === id;
+      {TABS.map(({ id, label, icon, isFab }) => {
+        const isActive = active === id;
 
-          if (isFab) {
-            return (
+        if (isFab) {
+          return (
+            <div key={id} className="relative -top-8">
               <button
-                key={id}
                 onClick={() => onChange(id)}
                 aria-label={label}
-                className="
-                  -mt-5 w-14 h-14 rounded-full bg-indigo-600 text-white
-                  flex items-center justify-center shadow-lg shadow-indigo-300
-                  hover:bg-indigo-700 active:scale-95 transition-all duration-150
-                "
+                className="w-16 h-16 bg-gradient-to-br from-primary to-primary-container text-white rounded-full flex items-center justify-center shadow-lg transform active:scale-95 transition-transform"
               >
-                <Icon size={22} />
+                <span className="material-symbols-outlined text-3xl">add</span>
               </button>
-            );
-          }
-
-          return (
-            <button
-              key={id}
-              onClick={() => onChange(id)}
-              aria-label={label}
-              aria-current={isActive ? "page" : undefined}
-              className="flex flex-col items-center gap-0.5 px-3 py-1.5 min-w-[56px] relative"
-            >
-              {/* MD3 pill indicator */}
-              {isActive && (
-                <span className="absolute top-1 inset-x-2 h-8 rounded-full bg-indigo-100 -z-0" />
-              )}
-              <span className={`relative z-10 transition-colors duration-150 ${isActive ? "text-indigo-600" : "text-gray-400"}`}>
-                <Icon size={20} strokeWidth={isActive ? 2.2 : 1.7} />
-              </span>
-              <span className={`text-[10px] font-medium leading-none transition-colors duration-150 ${
-                isActive ? "text-indigo-600" : "text-gray-400"
-              }`}>
-                {label}
-              </span>
-            </button>
+            </div>
           );
-        })}
-      </div>
+        }
+
+        return (
+          <a
+            key={id}
+            href="#"
+            onClick={(e) => { e.preventDefault(); onChange(id); }}
+            aria-current={isActive ? "page" : undefined}
+            className={`flex flex-col items-center justify-center ${
+              isActive
+                ? "bg-indigo-50 text-primary rounded-[1.5rem] px-4 py-1"
+                : "text-slate-400"
+            }`}
+          >
+            <span
+              className="material-symbols-outlined text-2xl"
+              style={isActive ? { fontVariationSettings: "'FILL' 1" } : undefined}
+            >
+              {icon}
+            </span>
+            <span className="text-xs font-bold tracking-wide mt-1">{label}</span>
+          </a>
+        );
+      })}
     </nav>
   );
 }
